@@ -9,7 +9,7 @@ import { RemixVisualizer } from '@/components/landing/RemixVisualizer';
 import { GuestCtaBanner } from '@/components/landing/GuestCtaBanner';
 import { FooterSpecs } from '@/components/landing/FooterSpecs';
 import Link from 'next/link';
-import { BRAND_CONFIG } from '@origin/shared';
+import { BRAND_CONFIG } from '@/lib/shared';
 import { Flame, Sparkles } from 'lucide-react';
 
 export default function LandingPage() {

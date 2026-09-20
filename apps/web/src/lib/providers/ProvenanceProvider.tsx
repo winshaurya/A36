@@ -8,7 +8,7 @@ import {
   RelationshipType,
   MOCK_PROVENANCE_TIMELINE,
   MOCK_MEME_POSTS
-} from '@origin/shared';
+} from '@/lib/shared';
 
 export interface ProvenanceContextType {
   isMockMode: boolean;

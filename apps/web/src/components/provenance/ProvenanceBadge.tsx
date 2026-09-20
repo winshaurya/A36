@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { ProvenanceStatus } from '@origin/shared';
-import { BRAND_CONFIG } from '@origin/shared';
+import { ProvenanceStatus } from '@/lib/shared';
+import { BRAND_CONFIG } from '@/lib/shared';
 import { ShieldCheck, GitFork, AlertCircle, Clock, CheckCircle2, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'motion/react';

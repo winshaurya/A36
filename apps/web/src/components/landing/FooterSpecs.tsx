@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { BRAND_CONFIG } from '@origin/shared';
+import { BRAND_CONFIG } from '@/lib/shared';
 import { ExternalLink, Github, Terminal, Shield, ArrowUpRight } from 'lucide-react';
 
 export function FooterSpecs() {

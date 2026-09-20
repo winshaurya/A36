@@ -3,7 +3,7 @@
 import React, { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useMotionValue, useTransform, useSpring } from 'motion/react';
-import { BRAND_CONFIG, MOCK_MEME_POSTS } from '@origin/shared';
+import { BRAND_CONFIG, MOCK_MEME_POSTS } from '@/lib/shared';
 import { ShieldCheck, ArrowRight, Sparkles, Hash, Layers } from 'lucide-react';
 import { ProvenanceBadge } from '../provenance/ProvenanceBadge';
 

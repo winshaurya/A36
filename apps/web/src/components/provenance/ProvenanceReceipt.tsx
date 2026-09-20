@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ProvenanceRecord, BRAND_CONFIG } from '@origin/shared';
-import { formatAddress, formatTxHash, getExplorerUrl } from '@origin/blockchain';
+import { ProvenanceRecord, BRAND_CONFIG } from '@/lib/shared';
+import { formatAddress, formatTxHash, getExplorerUrl } from '@/lib/blockchain';
 import { ShieldCheck, Copy, Check, ExternalLink, Hash, Clock, Box, Layers, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';

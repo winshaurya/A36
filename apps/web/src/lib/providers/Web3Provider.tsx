@@ -3,7 +3,7 @@
 import React, { ReactNode, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider as WagmiCoreProvider, createConfig, http } from 'wagmi';
-import { avalancheFuji, avalancheMainnet } from '@origin/blockchain';
+import { avalancheFuji, avalancheMainnet } from '@/lib/blockchain';
 
 export const wagmiConfig = createConfig({
   chains: [avalancheFuji, avalancheMainnet],

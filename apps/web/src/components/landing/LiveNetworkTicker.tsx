@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { ShieldCheck, Activity, Box, Clock } from 'lucide-react';
-import { formatAddress, formatTxHash } from '@origin/blockchain';
+import { formatAddress, formatTxHash } from '@/lib/blockchain';
 
 export function LiveNetworkTicker() {
   const [currentBlock, setCurrentBlock] = useState(4894210);

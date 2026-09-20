@@ -3,7 +3,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import '../styles/globals.css';
 import { Web3Provider } from '@/lib/providers/Web3Provider';
 import { MockProvenanceProvider } from '@/lib/providers/ProvenanceProvider';
-import { BRAND_CONFIG } from '@origin/shared';
+import { BRAND_CONFIG } from '@/lib/shared';
 
 const inter = Inter({
   subsets: ['latin'],

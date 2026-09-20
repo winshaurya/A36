@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { MemePost } from '@origin/shared';
+import { MemePost } from '@/lib/shared';
 import { CreatorIdentity } from '../identity/CreatorIdentity';
 import { ProvenanceBadge } from '../provenance/ProvenanceBadge';
 import { ProvenanceReceipt } from '../provenance/ProvenanceReceipt';

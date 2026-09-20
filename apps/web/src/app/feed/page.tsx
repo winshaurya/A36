@@ -7,7 +7,7 @@ import {
   MOCK_COMMUNITIES,
   BRAND_CONFIG,
   MemePost,
-} from '@origin/shared';
+} from '@/lib/shared';
 import { MemeCard } from '@/components/feed/MemeCard';
 import { OnChainFlameButton } from '@/components/motion/OnChainFlameButton';
 import {

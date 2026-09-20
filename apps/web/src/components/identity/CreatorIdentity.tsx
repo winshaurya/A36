@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Author } from '@origin/shared';
+import { Author } from '@/lib/shared';
 import { WalletIdentity } from './WalletIdentity';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';

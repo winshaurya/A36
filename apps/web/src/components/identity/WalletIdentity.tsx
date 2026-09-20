@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { formatAddress, getExplorerUrl } from '@origin/blockchain';
+import { formatAddress, getExplorerUrl } from '@/lib/blockchain';
 import { Copy, Check, ExternalLink, Wallet } from 'lucide-react';
 import { cn } from '@/lib/utils';
 

@@ -18,7 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: `${BRAND_CONFIG.name} — ${BRAND_CONFIG.tagline}`,
+  title: `${BRAND_CONFIG.name} | ${BRAND_CONFIG.tagline}`,
   description: 'Meme provenance protocol and social network on Avalanche C-Chain. Discover who registered memes first with verifiable receipts.',
 };
 

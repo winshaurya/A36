@@ -73,7 +73,7 @@ export function HeroSection() {
             className="text-base sm:text-lg text-origin-muted max-w-xl mx-auto lg:mx-0 leading-relaxed"
           >
             Share memes socially while anchoring cryptographic fingerprints on Avalanche.
-            Discover who registered first with immutable receipts—no crypto jargon, no mandatory wallet.
+            Discover who registered first with immutable receipts. No crypto jargon, no mandatory wallet.
           </motion.p>
 
           {/* Action CTAs */}

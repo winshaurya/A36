@@ -3,7 +3,7 @@
  *
  * Deploys the Validation Registry and TaskAgent contract.
  * Identity and Reputation registries use the official ERC-8004 addresses
- * on Fuji and Avalanche mainnet — these are NOT deployed per-agent.
+ * on Fuji and Avalanche mainnet - these are NOT deployed per-agent.
  */
 
 const hre = require("hardhat");
@@ -48,7 +48,7 @@ async function main() {
     console.log("\n2. Using official ERC-8004 Reputation Registry (shared)");
     console.log(`   → ${reputationRegistryAddress}`);
   } else {
-    // Local / custom network — deploy fresh registries
+    // Local / custom network - deploy fresh registries
     identityRegistryAddress = networkConfig.registries?.identity;
     reputationRegistryAddress = networkConfig.registries?.reputation;
 

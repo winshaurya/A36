@@ -108,7 +108,7 @@ The blockchain details should progressively reveal themselves.
 
 Think:
 
-### Layer 1 — human language
+### Layer 1 - human language
 
 "First registered"
 
@@ -120,7 +120,7 @@ Think:
 
 "Original registration"
 
-### Layer 2 — provenance details
+### Layer 2 - provenance details
 
 "Registered by"
 
@@ -134,7 +134,7 @@ Think:
 
 "Content fingerprint"
 
-### Layer 3 — technical verification
+### Layer 3 - technical verification
 
 Contract address
 
@@ -798,7 +798,7 @@ Select patterns based on interaction purpose.
 
 Every animation belongs to one of three levels.
 
-## LEVEL A — MICRO
+## LEVEL A - MICRO
 
 Used constantly.
 
@@ -828,7 +828,7 @@ It should disappear into normal interaction.
 
 ---
 
-## LEVEL B — PRODUCT
+## LEVEL B - PRODUCT
 
 Used for meaningful interaction.
 
@@ -854,7 +854,7 @@ This animation can be more noticeable.
 
 ---
 
-## LEVEL C — CINEMATIC
+## LEVEL C - CINEMATIC
 
 Rare.
 
@@ -2957,7 +2957,7 @@ Bad:
 
 Bad:
 
-❌ DUPLICATE MEME — CANNOT POST
+❌ DUPLICATE MEME - CANNOT POST
 
 Better:
 

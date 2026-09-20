@@ -9,7 +9,7 @@ import {
   MemePost,
 } from '@origin/shared';
 import { MemeCard } from '@/components/feed/MemeCard';
-import { HoldToConfirmButton } from '@/components/motion/HoldToConfirmButton';
+import { OnChainFlameButton } from '@/components/motion/OnChainFlameButton';
 import {
   ShieldCheck,
   Flame,
@@ -409,14 +409,11 @@ export default function FeedPage() {
                   </div>
                 </div>
 
-                {/* Hold to Confirm Registration Button */}
+                {/* On-Chain Flame & Lightning Firing Button */}
                 <div className="pt-2">
-                  <HoldToConfirmButton
+                  <OnChainFlameButton
                     onConfirm={handleRegisterNewMeme}
-                    label="Hold to Anchor on Avalanche"
-                    confirmingLabel="Broadcasting to Fuji C-Chain..."
-                    completedLabel="Receipt Generated & Anchored!"
-                    className="w-full"
+                    label="POST A NEW MEME ON CHAINNN!!!!!"
                   />
                 </div>
               </div>

@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { motion } from 'motion/react';
-import { ShieldCheck, Sparkles, Loader2 } from 'lucide-react';
+import { ShieldCheck, Sparkles, Loader2, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface HoldToConfirmButtonProps {
@@ -40,19 +40,6 @@ export function HoldToConfirmButton({
       try {
         await onConfirm();
         setIsCompleted(true);
-
-        // Safe client-side dynamic confetti
-        if (typeof window !== 'undefined') {
-          import('canvas-confetti').then((confettiModule) => {
-            const confetti = confettiModule.default || confettiModule;
-            confetti({
-              particleCount: 80,
-              spread: 70,
-              origin: { y: 0.8 },
-              colors: ['#E84142', '#10B981', '#F59E0B'],
-            });
-          });
-        }
       } catch (err) {
         console.error('Registration failed:', err);
       } finally {
@@ -129,7 +116,7 @@ export function HoldToConfirmButton({
           ) : isCompleted ? (
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
           ) : (
-            <Sparkles className="w-3.5 h-3.5" />
+            <Zap className="w-3.5 h-3.5 text-amber-300" />
           )}
         </div>
       </div>
@@ -140,7 +127,7 @@ export function HoldToConfirmButton({
           : isCompleted
           ? completedLabel
           : isHolding
-          ? 'Keep holding...'
+          ? 'Charging transaction...'
           : label}
       </span>
     </button>

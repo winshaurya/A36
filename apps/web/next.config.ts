@@ -14,12 +14,11 @@ const nextConfig: NextConfig = {
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@origin/shared': path.resolve(__dirname, '../../packages/shared/src'),
-      '@origin/blockchain': path.resolve(__dirname, '../../packages/blockchain/src'),
+      '@origin/shared': path.resolve(__dirname, './src/lib/shared'),
+      '@origin/blockchain': path.resolve(__dirname, './src/lib/blockchain'),
     };
     return config;
   },
-  transpilePackages: ['@origin/shared', '@origin/blockchain'],
 };
 
 export default nextConfig;

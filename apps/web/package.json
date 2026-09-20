@@ -9,8 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@origin/blockchain": "*",
-    "@origin/shared": "*",
     "@tanstack/react-query": "^5.66.0",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",

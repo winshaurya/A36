@@ -20,8 +20,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@origin/shared": ["../../packages/shared/src"],
-      "@origin/blockchain": ["../../packages/blockchain/src"]
+      "@origin/shared": ["./src/lib/shared"],
+      "@origin/blockchain": ["./src/lib/blockchain"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

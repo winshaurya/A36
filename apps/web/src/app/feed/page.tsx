@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import {
   MOCK_MEME_POSTS,
@@ -26,19 +26,45 @@ import {
   Sparkles,
   X,
   UploadCloud,
+  Image as ImageIcon,
+  CheckCircle2,
+  Zap,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useProvenance } from '@/lib/providers/ProvenanceProvider';
+
+const PRESET_MEMES = [
+  {
+    name: 'Avalanche Red Streak',
+    url: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&auto=format&fit=crop&q=80',
+  },
+  {
+    name: 'Cryptographic Neon Matrix',
+    url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop&q=80',
+  },
+  {
+    name: 'Surreal Pixel Reality',
+    url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+  },
+  {
+    name: 'Cyberpunk Aesthetic',
+    url: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&auto=format&fit=crop&q=80',
+  },
+];
 
 export default function FeedPage() {
   const [feedFilter, setFeedFilter] = useState<'firsts' | 'trending' | 'remixes'>('firsts');
   const [posts, setPosts] = useState<MemePost[]>(MOCK_MEME_POSTS);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  
+  // New Meme Form State
   const [newTitle, setNewTitle] = useState('');
   const [newCaption, setNewCaption] = useState('');
-  const [newMediaUrl, setNewMediaUrl] = useState(
-    'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&auto=format&fit=crop&q=80'
-  );
+  const [newMediaUrl, setNewMediaUrl] = useState(PRESET_MEMES[0].url);
+  const [imageHash, setImageHash] = useState<string>('0x8f4d92a10b3c5e789a12bc45def67890123456789abcdef0123456789abcdef0');
+  const [isDragOver, setIsDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   const { registerMeme } = useProvenance();
 
   // Filter posts
@@ -48,16 +74,67 @@ export default function FeedPage() {
     return true;
   });
 
-  const handleRegisterNewMeme = async () => {
-    const mockFingerprint = `0x${Array.from({ length: 64 }, () =>
-      Math.floor(Math.random() * 16).toString(16)
-    ).join('')}` as `0x${string}`;
+  // Calculate real SHA-256 hash from image ArrayBuffer
+  const computeFileHash = async (file: File) => {
+    try {
+      const buffer = await file.arrayBuffer();
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = '0x' + hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+      setImageHash(hashHex);
+    } catch (err) {
+      console.error('Hash calculation error:', err);
+    }
+  };
 
-    const res = await registerMeme(mockFingerprint);
+  // Handle local image file upload
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          setNewMediaUrl(event.target.result as string);
+        }
+      };
+      reader.readAsDataURL(file);
+      computeFileHash(file);
+    }
+  };
+
+  // Handle Drag & Drop
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          setNewMediaUrl(event.target.result as string);
+        }
+      };
+      reader.readAsDataURL(file);
+      computeFileHash(file);
+    }
+  };
+
+  const handleSelectPreset = (url: string) => {
+    setNewMediaUrl(url);
+    const mockHash = `0x${Array.from({ length: 64 }, () =>
+      Math.floor(Math.random() * 16).toString(16)
+    ).join('')}`;
+    setImageHash(mockHash);
+  };
+
+  const handleRegisterNewMeme = async () => {
+    const targetFingerprint = (imageHash.startsWith('0x') ? imageHash : `0x${imageHash}`) as `0x${string}`;
+
+    const res = await registerMeme(targetFingerprint);
 
     const createdPost: MemePost = {
       id: `post_origin_${Date.now()}`,
-      title: newTitle || 'Newly Registered Fuji Meme',
+      title: newTitle || 'Newly Posted Avalanche Meme',
       caption: newCaption || 'Anchored on Avalanche C-Chain with sub-second receipt.',
       media: {
         url: newMediaUrl,
@@ -84,7 +161,7 @@ export default function FeedPage() {
       remixesCount: 0,
       tags: ['avalanche', 'first', 'origin'],
       fingerprint: {
-        hash: mockFingerprint,
+        hash: targetFingerprint,
         algorithm: 'keccak256',
       },
       provenance: res.record,
@@ -95,11 +172,11 @@ export default function FeedPage() {
       setIsRegisterModalOpen(false);
       setNewTitle('');
       setNewCaption('');
-    }, 1200);
+    }, 1400);
   };
 
   return (
-    <div className="min-h-screen bg-origin-base text-origin-text flex justify-center">
+    <div className="min-h-screen bg-origin-base text-origin-text flex justify-center selection:bg-origin-accent/30 selection:text-white">
       {/* 3-Column Desktop Shell */}
       <div className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-12 gap-6 px-4 py-6">
         {/* ======================================================== */}
@@ -146,13 +223,13 @@ export default function FeedPage() {
               </button>
             </nav>
 
-            {/* Register Meme CTA */}
+            {/* Post Meme on Chain CTA */}
             <button
               onClick={() => setIsRegisterModalOpen(true)}
-              className="w-full py-3 rounded-xl bg-origin-accent hover:bg-origin-accentHover text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-glow transition-transform active:scale-95"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-origin-accent via-rose-500 to-origin-accent hover:opacity-90 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-glow transition-all active:scale-95 uppercase tracking-wider"
             >
-              <PlusSquare className="w-4 h-4" />
-              <span>Register Meme Fingerprint</span>
+              <Zap className="w-4 h-4 text-amber-300 fill-amber-300" />
+              <span>Post Meme on Chain</span>
             </button>
           </div>
 
@@ -218,7 +295,7 @@ export default function FeedPage() {
             <button
               onClick={() => setIsRegisterModalOpen(true)}
               className="md:hidden p-2 rounded-xl bg-origin-accent text-white"
-              aria-label="Create Post"
+              aria-label="Post Meme on Chain"
             >
               <PlusSquare className="w-4 h-4" />
             </button>
@@ -323,7 +400,7 @@ export default function FeedPage() {
           <div className="w-9 h-9 rounded-full bg-origin-accent flex items-center justify-center text-white -mt-3 shadow-glow">
             <PlusSquare className="w-4 h-4" />
           </div>
-          <span className="text-[10px] font-medium">Register</span>
+          <span className="text-[10px] font-medium">Post Meme</span>
         </button>
         <button className="flex flex-col items-center gap-1 hover:text-origin-text">
           <Receipt className="w-5 h-5" />
@@ -336,16 +413,16 @@ export default function FeedPage() {
       </nav>
 
       {/* ======================================================== */}
-      {/* Register Meme Modal with Hold-To-Confirm */}
+      {/* Post Meme on Chain Modal */}
       {/* ======================================================== */}
       <AnimatePresence>
         {isRegisterModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0"
+              className="fixed inset-0"
               onClick={() => setIsRegisterModalOpen(false)}
             />
 
@@ -353,7 +430,7 @@ export default function FeedPage() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative z-10 w-full max-w-md bg-origin-surface border border-origin-border rounded-2xl p-6 shadow-originReceipt text-origin-text overflow-hidden"
+              className="relative z-10 w-full max-w-lg bg-origin-surface border border-origin-border rounded-2xl p-6 shadow-originReceipt text-origin-text my-8"
             >
               <button
                 onClick={() => setIsRegisterModalOpen(false)}
@@ -362,19 +439,113 @@ export default function FeedPage() {
                 <X className="w-4 h-4" />
               </button>
 
-              <div className="flex items-center gap-2.5 mb-4 pb-3 border-b border-origin-border">
-                <div className="w-8 h-8 rounded-lg bg-origin-accent/20 text-origin-accent flex items-center justify-center">
-                  <UploadCloud className="w-4 h-4" />
+              {/* Modal Header */}
+              <div className="flex items-center gap-3 mb-5 pb-4 border-b border-origin-border">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-origin-accent to-amber-500 text-white flex items-center justify-center shadow-glow">
+                  <Zap className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-origin-text">Register Meme Provenance</h3>
-                  <p className="text-[11px] font-mono text-origin-muted">
-                    Anchors cryptographic hash on Avalanche Fuji
+                  <h3 className="text-base font-bold text-origin-text">Post a Meme on Chain</h3>
+                  <p className="text-xs font-mono text-origin-muted">
+                    Anchors permanent receipt on Avalanche Fuji C-Chain
                   </p>
                 </div>
               </div>
 
               <div className="space-y-4 text-xs">
+                {/* 1. Image Upload / Drag & Drop Area */}
+                <div>
+                  <label className="block text-origin-muted mb-1.5 font-medium">
+                    Upload Your Meme / Picture
+                  </label>
+                  
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileUpload}
+                    accept="image/*"
+                    className="hidden"
+                  />
+
+                  <div
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      setIsDragOver(true);
+                    }}
+                    onDragLeave={() => setIsDragOver(false)}
+                    onDrop={handleDrop}
+                    onClick={() => fileInputRef.current?.click()}
+                    className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-all ${
+                      isDragOver
+                        ? 'border-origin-accent bg-origin-accent/10 scale-[1.01]'
+                        : 'border-origin-border hover:border-origin-accent/60 bg-origin-base'
+                    }`}
+                  >
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-10 h-10 rounded-full bg-origin-elevated border border-origin-border flex items-center justify-center text-origin-accent">
+                        <UploadCloud className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <span className="font-semibold text-origin-text">Click to choose image</span>
+                        <span className="text-origin-muted"> or drag & drop here</span>
+                      </div>
+                      <div className="text-[11px] text-origin-muted font-mono">
+                        PNG, JPG, GIF, WEBP supported
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Choose from Presets */}
+                <div>
+                  <div className="text-[11px] text-origin-muted mb-1.5 font-medium">
+                    Or select a template:
+                  </div>
+                  <div className="grid grid-cols-4 gap-2">
+                    {PRESET_MEMES.map((preset, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => handleSelectPreset(preset.url)}
+                        className={`relative rounded-lg overflow-hidden aspect-square border-2 transition-transform hover:scale-105 ${
+                          newMediaUrl === preset.url
+                            ? 'border-origin-accent shadow-[0_0_10px_rgba(232,65,66,0.5)]'
+                            : 'border-origin-border opacity-70 hover:opacity-100'
+                        }`}
+                      >
+                        <img
+                          src={preset.url}
+                          alt={preset.name}
+                          className="w-full h-full object-cover"
+                        />
+                        {newMediaUrl === preset.url && (
+                          <div className="absolute top-1 right-1 bg-origin-accent text-white rounded-full p-0.5">
+                            <CheckCircle2 className="w-3 h-3" />
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 3. Live Image Preview & Cryptographic Fingerprint */}
+                <div className="rounded-xl border border-origin-borderSubtle overflow-hidden aspect-video bg-black flex items-center justify-center relative shadow-inner">
+                  <img
+                    src={newMediaUrl}
+                    alt="Meme Preview"
+                    className="w-full h-full object-contain"
+                  />
+                  <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10 text-[10px] font-mono">
+                    <span className="text-emerald-400 flex items-center gap-1">
+                      <ShieldCheck className="w-3 h-3" /> Hash Ready
+                    </span>
+                    <span className="text-origin-muted truncate max-w-[200px]">
+                      {imageHash.slice(0, 10)}...{imageHash.slice(-8)}
+                    </span>
+                  </div>
+                </div>
+
+                {/* 4. Meme Title */}
                 <div>
                   <label className="block text-origin-muted mb-1 font-medium">Meme Title</label>
                   <input
@@ -386,30 +557,19 @@ export default function FeedPage() {
                   />
                 </div>
 
+                {/* 5. Caption */}
                 <div>
-                  <label className="block text-origin-muted mb-1 font-medium">Caption</label>
+                  <label className="block text-origin-muted mb-1 font-medium">Caption (Optional)</label>
                   <input
                     type="text"
                     value={newCaption}
                     onChange={(e) => setNewCaption(e.target.value)}
-                    placeholder="Context / punchline..."
+                    placeholder="Add your punchline..."
                     className="w-full px-3 py-2.5 rounded-xl bg-origin-base border border-origin-border text-origin-text focus:outline-none focus:border-origin-accent"
                   />
                 </div>
 
-                {/* Media Preview Box */}
-                <div className="rounded-xl border border-origin-borderSubtle overflow-hidden aspect-video bg-black flex items-center justify-center relative">
-                  <img
-                    src={newMediaUrl}
-                    alt="Preview"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/70 text-[10px] font-mono text-emerald-400">
-                    Keccak-256 Calculated: 0x8a...4b92
-                  </div>
-                </div>
-
-                {/* On-Chain Flame & Lightning Firing Button */}
+                {/* 6. Epic On-Chain Flame & Lightning Button */}
                 <div className="pt-2">
                   <OnChainFlameButton
                     onConfirm={handleRegisterNewMeme}

@@ -1,0 +1,17 @@
+{
+  "network": "fuji",
+  "chainId": 43113,
+  "deployer": "0xdD7Fb4faE9fDA087254d5D6a06aF93561aab35fc",
+  "contracts": {
+    "identityRegistry": "0x8004A818BFB912233c491871b3d84c89A494BD9e",
+    "reputationRegistry": "0x8004B663056A597Dffe9eCcC1965A193B7388713",
+    "validationRegistry": "0xE668EFB9C5CcCC605756E9f4e1843076e6400252",
+    "taskAgent": "0xaE1BFC81503d9d16A2Ff44F7f45F88aFF97A21AD"
+  },
+  "agent": {
+    "id": "249",
+    "name": "My AI Agent",
+    "description": "An AI agent that performs tasks using ERC-8004"
+  },
+  "timestamp": "2026-09-20T12:06:13.050Z"
+}

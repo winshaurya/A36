@@ -1,0 +1,8 @@
+{
+  "network": "fuji",
+  "chainId": 43113,
+  "contractAddress": "0x27ca712c47562555b7b726fc1c2716195bfc60f8",
+  "deployerAddress": "0xdd7fb4fae9fda087254d5d6a06af93561aab35fc",
+  "timestamp": "2026-09-20T12:25:19.158Z",
+  "explorerUrl": "https://testnet.snowtrace.io/address/0x27ca712c47562555b7b726fc1c2716195bfc60f8"
+}

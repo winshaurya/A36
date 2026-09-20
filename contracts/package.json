@@ -1,0 +1,21 @@
+{
+  "name": "@origin/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy:fuji": "hardhat ignition deploy ./ignition/modules/ProvenanceRegistry.ts --network fuji",
+    "deploy:local": "hardhat ignition deploy ./ignition/modules/ProvenanceRegistry.ts --network localhost"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
+    "@nomicfoundation/hardhat-viem": "^2.0.0",
+    "@types/node": "^22.13.0",
+    "dotenv": "^16.4.7",
+    "hardhat": "^2.22.18",
+    "typescript": "^5.7.3",
+    "viem": "^2.23.0"
+  }
+}
